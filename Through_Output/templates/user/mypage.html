@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  {% if user.picture %}
+  <p><img src="{{ user.picture.url }}" alt="{{ user.username }}のプロフィール画像" width="125px" height="130px" style="float: left; margin-right: 10px;"></p> 
+  <p><h1>{{ user.username }}</h1></p>
+  {% else %}
+  <p><img src="/media/picture/default.jpeg" alt="Default Profile Picture" width="125px" height="130px"></p>
+  {% endif %}
+  
+  <p>年齢: {{ user.age }}</p><br>
+  <p>{{ user.profile }}</p>
+  <a href="{% url 'user:mypage_edit' %}">プロフィール編集</a>
+  <a href="{% url 'tweet:my_likes' %}">いいねした投稿一覧</a>
+  <hr class="tweet-divider">
+  <br>
+  <h2>投稿一覧</h2>
+  {% for tweet in tweets %}
+        {% if tweet.user.picture %}
+        <p><img src="{{ tweet.user.picture.url }}" alt="{{ tweet.user.username }}のプロフィール画像" width="125px" height="130px" ></p>
+        {% else %}
+        <!-- Not image -->
+        <img src="/media/picture/default.jpeg" alt="Default Profile Picture" width="125px" height="130px" >
+        {% endif %}
+  <h3>{{ tweet.category }}</h3><br>
+  {{ tweet.content }} <br>
+   {{ tweet.created_at }} 
+  by {{ tweet.user.username }}<!-- 投稿内容と日付を表示 -->
+  {% if tweet.user == request.user %} <!-- 投稿の作成者がログインユーザーと一致する場合にのみ削除ボタンを表示 -->
+      <form method="POST" action="{% url 'tweet:edit_tweet' tweet.id %} " style="display: inline-block;">
+          {% csrf_token %}
+          <input type="hidden" value="{{ tweet.content }}" name="content">
+          <input type="submit" value="編集">
+      </form>
+      <form method="POST" action="{% url 'tweet:delete_tweet' tweet.id %}" style="display: inline-block;">
+          {% csrf_token %}
+          <input type="submit" value="削除">
+      </form>
+      
+  {% endif %}
+  
+  <hr class="tweet-divider">
+{% endfor %}
+{% endblock %}

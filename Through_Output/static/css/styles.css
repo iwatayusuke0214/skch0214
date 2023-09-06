@@ -1,0 +1,7 @@
+.image-with-text {
+    display: flex;
+    align-items: center;
+}
+.image-with-text img {
+    margin-right: 10px; /* 画像とテキストの間隔を調整 */
+}

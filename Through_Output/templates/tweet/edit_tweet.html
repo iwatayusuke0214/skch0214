@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>投稿編集画面</h3>
+<form method="POST">
+{% csrf_token %}
+{{ edit_tweet_form.as_p }}
+<input type="submit" value="更新" enctype="multipart/form-data">
+</form>
+{% endblock %}

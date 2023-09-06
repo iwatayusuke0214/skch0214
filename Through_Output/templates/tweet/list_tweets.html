@@ -1,0 +1,88 @@
+<head>
+    <!-- 他のメタ情報など -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    
+</head>
+
+{% extends "base.html" %}
+{% block content %}
+<a href="{% url 'tweet:create_tweet' %}" class="btn btn-dark btn-lg">新規投稿！</a><!-- 新規投稿ボタン -->
+    <ul>
+        {% for tweet in tweets %}
+            <div class="image-with-text">
+            <a href="{% url 'user:mypage' user_id=tweet.user.id %}">
+                {% if tweet.user.picture %}
+                <p><img src="{{ tweet.user.picture.url }}" alt="{{ tweet.user.username }}のプロフィール画像" width="125px" height="130px"></p>
+                {% else %}
+                <!-- Not image -->
+                <img src="/media/picture/default.jpeg" alt="Default Profile Picture" width="125px" height="130px">
+                {% endif %}
+            </a>
+        <h3>{{ tweet.category }}</h3> <br>
+            {{ tweet.content }} <br>
+            {{ tweet.created_at }} 
+            by <a href="{% url 'user:mypage' user_id=tweet.user.id %}">{{ tweet.user.username }}</a><!-- 投稿内容と日付を表示 -->
+            
+            {# 編集・削除ボタンはログインユーザーの投稿にのみ表示 #}
+            {% if tweet.user == request.user %}
+                <form method="POST" action="{% url 'tweet:edit_tweet' tweet.id %} " style="display: inline-block;">
+                    {% csrf_token %}
+                    <input type="submit" value="編集">
+                </form>
+                <form method="POST" action="{% url 'tweet:delete_tweet' tweet.id %}" style="display: inline-block;">
+                    {% csrf_token %}
+                    <input type="submit" value="削除">
+                </form>
+            {% endif %}
+            </div>
+            
+            <form method="post" action="{% url 'tweet:like_tweet' tweet.id %}">
+                {% csrf_token %}
+                <button type="submit" class="like-button">
+                    {% if request.user in tweet.likes.all %}
+                        いいね解除
+                    {% else %}
+                        いいね
+                    {% endif %}
+                </button>
+            </form>
+            <span class="likes-count">{{ tweet.likes.count }}</span>
+            
+            <style>
+                .like-button {
+                    display: inline;
+                    margin-right: 5px;
+                }
+                .likes-count {
+                    display: inline;
+                }
+            </style>
+            <hr class="tweet-divider">
+        {% endfor %}
+    
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const likeForms = document.querySelectorAll('.like-form');
+            likeForms.forEach(form => {
+                form.addEventListener('submit', async event => {
+                    event.preventDefault();
+                    const tweetId = form.getAttribute('data-tweet-id');
+                    const formData = new FormData(form);
+                    const response = await fetch(`/toggle_like/${tweetId}/`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await response.json();
+    
+                    const likeButton = form.querySelector('.like-button');
+                    likeButton.textContent = data.liked ? 'いいね解除' : 'いいね';
+                    
+                    const likesCount = form.querySelector('.likes-count');
+                    likesCount.textContent = data.likes_count;
+                });
+            });
+        });
+    </script> -->
+    </ul>
+{% endblock %}
+

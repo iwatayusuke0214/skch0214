@@ -1,0 +1,11 @@
+
+        .btn-custom {
+            background-color: lavender; /* 淡紫色の背景色 */
+            color: white; /* 白色のテキスト色 */
+            border-color: lavender; /* ボーダー色も合わせる */
+        }
+        
+        .btn-custom:hover {
+            background-color: thistle; /* ホバー時の色 */
+        }
+        

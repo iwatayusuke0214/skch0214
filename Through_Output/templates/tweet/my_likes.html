@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>いいねした投稿一覧</h2>
+  <ul>
+    {% for tweet in liked_tweets %}
+      <div class="image-with-text">
+        <a href="{% url 'user:mypage' user_id=tweet.user.id %}">
+          {% if tweet.user.picture %}
+            <p><img src="{{ tweet.user.picture.url }}" alt="{{ tweet.user.username }}のプロフィール画像" width="125px" height="130px"></p>
+          {% else %}
+            <!-- Not image -->
+            <img src="/media/picture/default.jpeg" alt="Default Profile Picture" width="125px" height="130px">
+          {% endif %}
+        </a>
+        <h3>{{ tweet.category }}</h3> <br>
+        {{ tweet.content }} <br>
+        {{ tweet.created_at }} 
+        by <a href="{% url 'user:mypage' user_id=tweet.user.id %}">{{ tweet.user.username }}</a>
+      </div>
+    {% endfor %}
+  </ul>
+{% endblock %}

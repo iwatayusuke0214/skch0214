@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>投稿削除画面</h1>
+<h3>以下投稿を削除します。よろしいですか？</h3>
+<p>{{ tweet.content }} - 投稿日時: {{ tweet.created_at }}</p>
+<form method="POST">
+{% csrf_token %}
+{{ delete_tweet_form.as_p }}
+<input type="submit" value="削除する">
+</form>
+{% endblock %}
