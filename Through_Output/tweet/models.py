@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.auth import get_user_model
+from django import forms
 # Create your models here.
 
 class TweetManager(models.Manager):
@@ -28,7 +29,11 @@ class Tweets(models.Model):
         ("恋愛","恋愛"),
     )
 
-    content = models.CharField(max_length=255)
+    content = models.TextField()  # ここが変更点
+    # 他のフィールドやメソッド
+
+    def __str__(self):
+        return self.content[:30]
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default="FREE")
     user = models.ForeignKey(
         'user.Users', on_delete=models.CASCADE

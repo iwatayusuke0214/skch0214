@@ -25,10 +25,7 @@
             
             {# 編集・削除ボタンはログインユーザーの投稿にのみ表示 #}
             {% if tweet.user == request.user %}
-                <form method="POST" action="{% url 'tweet:edit_tweet' tweet.id %} " style="display: inline-block;">
-                    {% csrf_token %}
-                    <input type="submit" value="編集">
-                </form>
+                <a href="{% url 'tweet:edit_tweet' tweet.id %}" class="btn btn-info">編集</a>
                 <form method="POST" action="{% url 'tweet:delete_tweet' tweet.id %}" style="display: inline-block;">
                     {% csrf_token %}
                     <input type="submit" value="削除">

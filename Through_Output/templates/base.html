@@ -19,10 +19,7 @@
       <a class="navbar-brand" href="{% url 'user:regist' %}">ユーザ登録</a>
       {% endif %}
       <div class="container">
-        
-
-        <!-- Category Buttons -->
-        <form method="get" action="{% url 'tweet:list_tweets' %}">
+        <form method="get" action="">
           <select name="category">
               <option value="">全てのカテゴリ</option>
               {% for category, _ in form.fields.category.choices %}
@@ -31,14 +28,17 @@
           </select>
           <input type="submit" value="検索">
       </form>
-
+      
         <!-- Search Form -->
-        <form class="d-flex ml-auto" method="GET" action="{% url 'tweet:list_tweets' %}">
+        <form class="d-flex ml-auto" method="GET" action="">
           <input class="form-control me-2" type="search" name="search_content" placeholder="投稿内容を検索" value="{{ request.GET.search_content }}">
           <button class="btn btn-outline-success" type="submit">検索</button>
         </form>
     </div>
+    
     </nav>
+    
+    
     {% block content %}{% endblock %}
 </body>
 </html>

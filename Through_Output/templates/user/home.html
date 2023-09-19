@@ -1,3 +1,9 @@
+<head>
+  <!-- 他のメタ情報など -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  
+</head>
+
 {% extends "base.html" %}
 {% block content %}
 <!-- {% if messages %}
@@ -5,5 +11,8 @@
     <div>{{ message.message }}</div>
   {% endfor %}
 {% endif %} -->
-ホーム画面です
+<h1>Through Outputへようこそ</h1>
+<h2>このwebアプリではカテゴリ別に自分の日々考えている思考をアウトプットできます。</h2>
+<h2>業務等で知識を深める際はインプット以上にアウトプットが重要です。</h2>
+<a href="{% url 'user:regist' %}" class="btn btn-dark btn-lg">新規登録</a>
 {% endblock %}

@@ -28,18 +28,9 @@ class DeleteTweetForm(forms.ModelForm):
 
 
 class EditTweetForm(forms.ModelForm):
-    CATEGORY_CHOICES = (
-        ("FREE","FREE"),
-        ("政治","政治"),
-        ("IT","IT"),
-        ("経済","経済"),
-        ("哲学","哲学"),
-        ("人間関係","人間関係"),
-        ("恋愛","恋愛"),
-    )
-    content = forms.CharField(label='内容', widget=forms.Textarea(attrs={'cols': '50', 'rows': '4'}))
-    category = forms.ChoiceField(label='カテゴリ', choices=CATEGORY_CHOICES)
-
     class Meta:
         model = Tweets
         fields = ('content',)
+        widgets = {
+            'content': forms.Textarea(attrs={'cols': '50', 'rows': '4'})
+        }
